@@ -25,6 +25,15 @@ const Index = () => {
     { title: 'Первооткрыватель', desc: 'Открыл секретную локацию первым в мире' },
   ];
 
+  const galleryImages = [
+    'https://cdn.poehali.dev/projects/ba00f49a-a4e9-437d-9edf-1f90ba17db5d/files/7d2709b9-d43b-46c5-8420-c7f59a0a3f34.jpg',
+    'https://cdn.poehali.dev/projects/ba00f49a-a4e9-437d-9edf-1f90ba17db5d/files/3ebae834-f8ae-4075-8130-08d2e34927df.jpg',
+    'https://cdn.poehali.dev/projects/ba00f49a-a4e9-437d-9edf-1f90ba17db5d/files/89a0c0ff-c629-445f-9194-2b14535dd198.jpg',
+    'https://cdn.poehali.dev/projects/ba00f49a-a4e9-437d-9edf-1f90ba17db5d/files/7d2709b9-d43b-46c5-8420-c7f59a0a3f34.jpg',
+    'https://cdn.poehali.dev/projects/ba00f49a-a4e9-437d-9edf-1f90ba17db5d/files/3ebae834-f8ae-4075-8130-08d2e34927df.jpg',
+    'https://cdn.poehali.dev/projects/ba00f49a-a4e9-437d-9edf-1f90ba17db5d/files/89a0c0ff-c629-445f-9194-2b14535dd198.jpg',
+  ];
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
@@ -170,14 +179,16 @@ const Index = () => {
             </span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3, 4, 5, 6].map((num) => (
+            {galleryImages.map((img, idx) => (
               <Card
-                key={num}
-                className="aspect-square bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20 border-primary/30 hover:border-primary/70 transition-all hover:scale-105 hover:glow-purple cursor-pointer overflow-hidden"
+                key={idx}
+                className="aspect-square border-primary/30 hover:border-primary/70 transition-all hover:scale-105 hover:glow-purple cursor-pointer overflow-hidden"
               >
-                <div className="w-full h-full flex items-center justify-center text-6xl font-black text-muted-foreground/20">
-                  {num}
-                </div>
+                <img
+                  src={img}
+                  alt={`Gallery ${idx + 1}`}
+                  className="w-full h-full object-cover"
+                />
               </Card>
             ))}
           </div>
