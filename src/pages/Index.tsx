@@ -83,8 +83,9 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
+    <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
+      <div className="fixed inset-0 animated-grid pointer-events-none" />
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border relative">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <h1 className="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
@@ -134,7 +135,7 @@ const Index = () => {
         )}
       </nav>
 
-      <section id="home" className="min-h-screen flex items-center justify-center pt-20 px-4">
+      <section id="home" className="min-h-screen flex items-center justify-center pt-20 px-4 relative">
         <div className="text-center animate-fade-in max-w-6xl mx-auto">
           <div className="mb-8 inline-block">
             <div className="w-32 h-32 bg-gradient-to-br from-primary via-secondary to-accent rounded-full mx-auto glow-purple animate-pulse-glow" />
