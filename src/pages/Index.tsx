@@ -1,13 +1,18 @@
 import { useState, useEffect, useRef } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
 import Icon from '@/components/ui/icon';
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set());
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const observerRef = useRef<IntersectionObserver | null>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     observerRef.current = new IntersectionObserver(
@@ -44,6 +49,15 @@ const Index = () => {
     { id: 'gallery', label: 'Галерея' },
     { id: 'contact', label: 'Контакты' },
   ];
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast({
+      title: 'Сообщение отправлено!',
+      description: 'Спасибо за обращение, легенда свяжется с вами.',
+    });
+    setFormData({ name: '', email: '', message: '' });
+  };
 
   const achievements = [
     { icon: 'Trophy', title: 'Чемпион Мира', desc: '2023', color: 'text-primary' },
@@ -270,22 +284,66 @@ const Index = () => {
               Контакты
             </span>
           </h2>
-          <Card className="p-8 bg-card border-accent/20 glow-orange">
-            <div className="space-y-6">
-              <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg hover:bg-muted transition-colors">
-                <Icon name="Mail" size={24} className="text-accent" />
-                <span>legend@kto_to404126.com</span>
+          <div className="space-y-8">
+            <Card className="p-8 bg-card border-accent/20 glow-orange">
+              <h3 className="text-2xl font-bold mb-6 text-center text-accent">Напиши легенде</h3>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <Input
+                    placeholder="Твое имя"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    required
+                    className="bg-muted/50 border-primary/30 focus:border-primary"
+                  />
+                </div>
+                <div>
+                  <Input
+                    type="email"
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    required
+                    className="bg-muted/50 border-primary/30 focus:border-primary"
+                  />
+                </div>
+                <div>
+                  <Textarea
+                    placeholder="Твое сообщение"
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    required
+                    rows={5}
+                    className="bg-muted/50 border-primary/30 focus:border-primary resize-none"
+                  />
+                </div>
+                <Button
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-primary via-secondary to-accent hover:opacity-90 glow-purple"
+                >
+                  Отправить
+                </Button>
+              </form>
+            </Card>
+
+            <Card className="p-6 bg-card border-primary/20">
+              <h3 className="text-xl font-bold mb-4 text-center">Социальные сети</h3>
+              <div className="space-y-4">
+                <div className="flex items-center gap-4 p-3 bg-muted/50 rounded-lg hover:bg-muted transition-colors">
+                  <Icon name="Mail" size={20} className="text-accent" />
+                  <span className="text-sm">legend@kto_to404126.com</span>
+                </div>
+                <div className="flex items-center gap-4 p-3 bg-muted/50 rounded-lg hover:bg-muted transition-colors">
+                  <Icon name="MessageCircle" size={20} className="text-primary" />
+                  <span className="text-sm">Telegram: @KTO_TO404126</span>
+                </div>
+                <div className="flex items-center gap-4 p-3 bg-muted/50 rounded-lg hover:bg-muted transition-colors">
+                  <Icon name="Users" size={20} className="text-secondary" />
+                  <span className="text-sm">Discord: KTO_TO404126#0001</span>
+                </div>
               </div>
-              <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg hover:bg-muted transition-colors">
-                <Icon name="MessageCircle" size={24} className="text-primary" />
-                <span>Telegram: @KTO_TO404126</span>
-              </div>
-              <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg hover:bg-muted transition-colors">
-                <Icon name="Users" size={24} className="text-secondary" />
-                <span>Discord: KTO_TO404126#0001</span>
-              </div>
-            </div>
-          </Card>
+            </Card>
+          </div>
         </div>
       </section>
 
