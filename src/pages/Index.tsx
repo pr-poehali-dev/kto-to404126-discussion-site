@@ -1,10 +1,33 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Icon from '@/components/ui/icon';
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
+  const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set());
+  const observerRef = useRef<IntersectionObserver | null>(null);
+
+  useEffect(() => {
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = parseInt(entry.target.getAttribute('data-index') || '0');
+            setVisibleItems((prev) => new Set(prev).add(index));
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    return () => observerRef.current?.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const elements = document.querySelectorAll('[data-index]');
+    elements.forEach((el) => observerRef.current?.observe(el));
+  }, []);
 
   const scrollToSection = (id: string) => {
     setActiveSection(id);
@@ -128,7 +151,11 @@ const Index = () => {
             {achievements.map((achievement, idx) => (
               <Card
                 key={idx}
-                className="p-6 bg-card border-primary/20 hover:border-primary/50 transition-all hover:scale-105 hover:glow-purple cursor-pointer"
+                data-index={idx}
+                className={`p-6 bg-card border-primary/20 hover:border-primary/50 transition-all hover:scale-105 hover:glow-purple cursor-pointer ${
+                  visibleItems.has(idx) ? 'animate-fade-in' : 'opacity-0'
+                }`}
+                style={{ animationDelay: `${idx * 100}ms` }}
               >
                 <div className={`mb-4 ${achievement.color}`}>
                   <Icon name={achievement.icon as any} size={48} className="mx-auto" />
@@ -152,7 +179,11 @@ const Index = () => {
             {legends.map((legend, idx) => (
               <Card
                 key={idx}
-                className="p-6 bg-card border-secondary/20 hover:border-secondary/50 transition-all hover:scale-102 hover:glow-pink"
+                data-index={100 + idx}
+                className={`p-6 bg-card border-secondary/20 hover:border-secondary/50 transition-all hover:scale-102 hover:glow-pink ${
+                  visibleItems.has(100 + idx) ? 'animate-fade-in' : 'opacity-0'
+                }`}
+                style={{ animationDelay: `${idx * 150}ms` }}
               >
                 <div className="flex items-start gap-4">
                   <div className="flex-shrink-0">
@@ -182,7 +213,11 @@ const Index = () => {
             {galleryImages.map((img, idx) => (
               <Card
                 key={idx}
-                className="aspect-square border-primary/30 hover:border-primary/70 transition-all hover:scale-105 hover:glow-purple cursor-pointer overflow-hidden"
+                data-index={200 + idx}
+                className={`aspect-square border-primary/30 hover:border-primary/70 transition-all hover:scale-105 hover:glow-purple cursor-pointer overflow-hidden ${
+                  visibleItems.has(200 + idx) ? 'animate-fade-in' : 'opacity-0'
+                }`}
+                style={{ animationDelay: `${idx * 100}ms` }}
               >
                 <img
                   src={img}
