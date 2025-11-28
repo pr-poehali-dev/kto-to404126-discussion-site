@@ -135,14 +135,42 @@ const Index = () => {
       </nav>
 
       <section id="home" className="min-h-screen flex items-center justify-center pt-20 px-4">
-        <div className="text-center animate-fade-in">
+        <div className="text-center animate-fade-in max-w-6xl mx-auto">
           <div className="mb-8 inline-block">
             <div className="w-32 h-32 bg-gradient-to-br from-primary via-secondary to-accent rounded-full mx-auto glow-purple animate-pulse-glow" />
           </div>
           <h2 className="text-6xl font-black mb-4 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
             KTO_TO404126
           </h2>
-          <p className="text-2xl text-muted-foreground mb-8">Легенда Мира 🏆</p>
+          <p className="text-2xl text-muted-foreground mb-12">Легенда Мира 🏆</p>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+            <Card className="p-6 bg-card border-primary/30 glow-purple hover:scale-105 transition-all">
+              <div className="text-4xl font-black bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-2">
+                10+
+              </div>
+              <div className="text-sm text-muted-foreground">Лет Опыта</div>
+            </Card>
+            <Card className="p-6 bg-card border-secondary/30 glow-pink hover:scale-105 transition-all">
+              <div className="text-4xl font-black bg-gradient-to-r from-secondary to-accent bg-clip-text text-transparent mb-2">
+                1000+
+              </div>
+              <div className="text-sm text-muted-foreground">Побед</div>
+            </Card>
+            <Card className="p-6 bg-card border-accent/30 glow-orange hover:scale-105 transition-all">
+              <div className="text-4xl font-black bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent mb-2">
+                50+
+              </div>
+              <div className="text-sm text-muted-foreground">Титулов</div>
+            </Card>
+            <Card className="p-6 bg-card border-primary/30 glow-purple hover:scale-105 transition-all">
+              <div className="text-4xl font-black bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent mb-2">
+                #1
+              </div>
+              <div className="text-sm text-muted-foreground">В Мире</div>
+            </Card>
+          </div>
+
           <div className="flex gap-4 justify-center">
             <Button
               onClick={() => scrollToSection('bio')}
