@@ -6,6 +6,7 @@ import Icon from '@/components/ui/icon';
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [visibleItems, setVisibleItems] = useState<Set<number>>(new Set());
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
@@ -31,8 +32,18 @@ const Index = () => {
 
   const scrollToSection = (id: string) => {
     setActiveSection(id);
+    setMobileMenuOpen(false);
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  const menuItems = [
+    { id: 'home', label: 'Главная' },
+    { id: 'bio', label: 'Биография' },
+    { id: 'achievements', label: 'Достижения' },
+    { id: 'legends', label: 'Легенды' },
+    { id: 'gallery', label: 'Галерея' },
+    { id: 'contact', label: 'Контакты' },
+  ];
 
   const achievements = [
     { icon: 'Trophy', title: 'Чемпион Мира', desc: '2023', color: 'text-primary' },
@@ -65,26 +76,48 @@ const Index = () => {
             <h1 className="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
               KTO_TO404126
             </h1>
-            <div className="flex gap-6">
-              {['home', 'bio', 'achievements', 'legends', 'gallery', 'contact'].map((section) => (
+            
+            <div className="hidden md:flex gap-6">
+              {menuItems.map((item) => (
                 <button
-                  key={section}
-                  onClick={() => scrollToSection(section)}
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id)}
                   className={`text-sm font-medium transition-colors hover:text-primary ${
-                    activeSection === section ? 'text-primary' : 'text-muted-foreground'
+                    activeSection === item.id ? 'text-primary' : 'text-muted-foreground'
                   }`}
                 >
-                  {section === 'home' && 'Главная'}
-                  {section === 'bio' && 'Биография'}
-                  {section === 'achievements' && 'Достижения'}
-                  {section === 'legends' && 'Легенды'}
-                  {section === 'gallery' && 'Галерея'}
-                  {section === 'contact' && 'Контакты'}
+                  {item.label}
+                </button>
+              ))}
+            </div>
+
+            <button
+              className="md:hidden text-foreground"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              <Icon name={mobileMenuOpen ? 'X' : 'Menu'} size={24} />
+            </button>
+          </div>
+        </div>
+
+        {mobileMenuOpen && (
+          <div className="md:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-md border-b border-border animate-fade-in">
+            <div className="container mx-auto px-4 py-4 space-y-4">
+              {menuItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id)}
+                  className={`block w-full text-left py-2 text-lg font-medium transition-colors hover:text-primary ${
+                    activeSection === item.id ? 'text-primary' : 'text-muted-foreground'
+                  }`}
+                >
+                  {item.label}
                 </button>
               ))}
             </div>
           </div>
-        </div>
+        )}
       </nav>
 
       <section id="home" className="min-h-screen flex items-center justify-center pt-20 px-4">
